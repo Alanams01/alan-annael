@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmez votre présence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Pinyon+Script&family=Noto+Serif+Hebrew:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- STYLE LUXE --- */
+        :root { --color-teal: #5faeb6; --color-teal-dark: #408a91; --color-text: #050505; --font-body: 'Cormorant Garamond', serif; --font-caps: 'Cinzel', serif; }
+        body { margin: 0; padding: 0; background-color: #f4f7f6; font-family: var(--font-body); color: var(--color-text); overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        .page-wrapper { padding: 40px 15px; width: 100%; max-width: 500px; display: flex; flex-direction: column; gap: 30px; }
+        
+        .form-card { background: #fff; width: 100%; border-radius: 12px; box-shadow: 0 30px 60px -10px rgba(0,0,0,0.12); padding: 40px 25px; box-sizing: border-box; border: 1px solid rgba(255,255,255,0.6); opacity: 0; animation: cardEntrance 1s ease-out forwards; }
+        @keyframes cardEntrance { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+
+        h1.form-title { font-family: var(--font-caps); font-size: 1.8rem; text-align: center; margin: 0 0 30px 0; color: #111; letter-spacing: 1px; font-weight: 700; }
+        label.field-label { display: block; font-family: var(--font-caps); font-size: 0.9rem; font-weight: 700; margin-bottom: 8px; color: #333; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .input-text { width: 100%; padding: 12px 15px; font-family: var(--font-body); font-size: 1.1rem; border: 1px solid #ccc; border-radius: 4px; background-color: #fafafa; box-sizing: border-box; margin-bottom: 25px; }
+        .input-text:focus { outline: none; border-color: var(--color-teal); background-color: #fff; }
+
+        .radio-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px; }
+        .radio-group input[type="radio"] { display: none; }
+        .radio-option { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; background-color: #f0f0f0; border-radius: 6px; cursor: pointer; transition: all 0.3s ease; font-family: var(--font-body); font-size: 1.2rem; font-weight: 600; border: 1px solid transparent; }
+        
+        input[type="radio"]:checked + .radio-option { background-color: rgba(95, 174, 182, 0.15); border-color: var(--color-teal); color: var(--color-teal-dark); }
+        .check-icon { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #ccc; display: flex; align-items: center; justify-content: center; }
+        .check-icon svg { width: 12px; height: 12px; fill: white; opacity: 0; }
+        input[type="radio"]:checked + .radio-option .check-icon { background-color: var(--color-teal); border-color: var(--color-teal); }
+        input[type="radio"]:checked + .radio-option .check-icon svg { opacity: 1; }
+
+        .btn-submit { width: 100%; padding: 16px; background: linear-gradient(135deg, #5faeb6 0%, #3a7e85 100%); color: white; border: none; border-radius: 50px; font-family: var(--font-caps); font-size: 1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(95, 174, 182, 0.3); margin-top: 10px; }
+        .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(95, 174, 182, 0.5); }
+        .back-link { text-align: center; display: block; margin-top: 20px; color: #666; text-decoration: none; font-family: var(--font-caps); font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <div class="page-wrapper">
+        <div class="form-card">
+            <h1 class="form-title">Confirmez votre présence</h1>
+            
+            <form id="rsvp-form" onsubmit="envoyerReponse(event)">
+                
+                <label class="field-label" for="nom">Nom prénom(s)*</label>
+                <input type="text" id="nom" name="nom" class="input-text" placeholder="Ex: Cohen David" required>
+
+                <label class="field-label">Présent(s) à la Mairie de Pantin*</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="mairie_presence" value="Oui" required onclick="toggleCount('mairie-count', true)">
+                        <div class="radio-option"><span>Oui, avec joie</span><div class="check-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div></div>
+                    </label>
+                    <label>
+                        <input type="radio" name="mairie_presence" value="Non" onclick="toggleCount('mairie-count', false)">
+                        <div class="radio-option"><span>Non, malheureusement</span><div class="check-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div></div>
+                    </label>
+                </div>
+
+                <div id="mairie-count" style="display:none; margin-bottom: 25px;">
+                    <label class="field-label">Nombre de personnes (Mairie)</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="mairie_nb" value="1">
+                            <div class="radio-option"><span>1 Personne</span><div class="check-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div></div>
+                        </label>
+                        <label>
+                            <input type="radio" name="mairie_nb" value="2">
+                            <div class="radio-option"><span>2 Personnes</span><div class="check-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div></div>
+                        </label>
+                    </div>
+                </div>
+
+                <label class="field-label">Présent à la Houppa & Soirée*</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="houppa_presence" value="Oui" required onclick="toggleCount('houppa-count', true)">
+                        <div class="radio-option"><span>Oui, avec joie</span><div class="check-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div></div>
+                    </label>
+                    <label>
+                        <input type="radio" name="houppa_presence" value="Non" onclick="toggleCount('houppa-count', false)">
+                        <div class="radio-option"><span>Non, malheureusement</span><div class="check-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div></div>
+                    </label>
+                </div>
+
+                <div id="houppa-count" style="display:none; margin-bottom: 25px;">
+                    <label class="field-label">Nombre de personnes (Soirée)</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="houppa_nb" value="1">
+                            <div class="radio-option"><span>1 Personne</span><div class="check-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div></div>
+                        </label>
+                        <label>
+                            <input type="radio" name="houppa_nb" value="2">
+                            <div class="radio-option"><span>2 Personnes</span><div class="check-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div></div>
+                        </label>
+                    </div>
+                </div>
+
+                <input type="text" name="bpot" style="display:none !important;" tabindex="-1" autocomplete="off">
+
+                <button type="submit" class="btn-submit">Envoyer votre réponse</button>
+            </form>
+
+            <a href="details.html" class="back-link">← Retour à l'invitation</a>
+        </div>
+    </div>
+
+    <script>
+        // TON URL GOOGLE SCRIPT :
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHnG5dSfSHpwFG2Gk0Jma4ktP7q-fDbmIgSJLE81_TjUhcgQI7O9vs5R3AWnNvvAOBOQ/exec"; 
+
+        function envoyerReponse(e) {
+            e.preventDefault();
+            var form = document.getElementById('rsvp-form');
+            var btn = document.querySelector('.btn-submit');
+            var originalText = btn.innerText;
+
+            btn.innerText = "Envoi en cours...";
+            btn.style.opacity = "0.7";
+
+            var data = new FormData(form);
+
+            // LA CORRECTION EST ICI : mode: 'no-cors'
+            fetch(SCRIPT_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', // <--- C'est ça qui force l'envoi sans erreur de sécurité
+                body: data 
+            })
+            .then(response => {
+                // Avec no-cors, on ne peut pas savoir si ça a échoué côté serveur,
+                // mais si on arrive ici, c'est que la connexion s'est faite.
+                alert("Mazal Tov ! Votre réponse a bien été enregistrée.");
+                form.reset();
+                btn.innerText = "Réponse envoyée !";
+                btn.style.background = "#4a8b91";
+                
+                setTimeout(() => { 
+                    btn.innerText = originalText; 
+                    btn.style.opacity = "1"; 
+                    btn.style.background = ""; 
+                }, 3000);
+            })
+            .catch(error => {
+                console.error('Erreur', error);
+                alert("Erreur de connexion. Veuillez réessayer.");
+                btn.innerText = originalText;
+                btn.style.opacity = "1";
+            });
+        }
+
+        // Gestion affichage Oui/Non (Reste identique)
+        function toggleCount(divId, show) {
+            var div = document.getElementById(divId);
+            div.style.display = show ? "block" : "none";
+            if (!show) {
+                var inputs = div.querySelectorAll('input');
+                inputs.forEach(input => input.checked = false);
+            }
+        }
+
+        // Gestion Musique (Reste identique)
+        document.addEventListener("DOMContentLoaded", function() {
+            var audio = document.getElementById("wedding-audio");
+            var btn = document.getElementById("music-control");
+            if (localStorage.getItem("startMusic") === "true" || localStorage.getItem("musicPlaying") === "true") {
+                audio.play().then(() => btn.classList.add("playing")).catch(e => console.log("Autoplay bloqué"));
+            }
+        });
+        function toggleMusic() {
+            var audio = document.getElementById("wedding-audio");
+            var btn = document.getElementById("music-control");
+            if(audio.paused) { audio.play(); btn.classList.add("playing"); localStorage.setItem("musicPlaying", "true"); }
+            else { audio.pause(); btn.classList.remove("playing"); localStorage.setItem("musicPlaying", "false"); }
+        }
+    </script>
+</body>
+</html>
