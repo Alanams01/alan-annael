@@ -133,9 +133,8 @@
         .intro-text { font-family: var(--font-body); font-style: italic; font-size: 1.3rem; color: var(--color-grey); margin: 0; font-weight: 500; }
         
         .hebrew-arc-container { width: 100%; height: 80px; margin-bottom: -15px; margin-top: 5px; overflow: visible; }
-        /* CORRECTION HÉBREU : ajout de direction: rtl */
-        .hebrew-arc-text { font-family: var(--font-hebrew); font-size: 22px; font-weight: 700; fill: #111; letter-spacing: 1.5px; text-shadow: 0px 0px 8px white; direction: rtl; unicode-bidi: bidi-override; }
-        .hebrew-text-simple { font-family: var(--font-hebrew); font-size: 1.4rem; color: #111; font-weight: 700; margin-top: -5px; direction: rtl; }
+        .hebrew-arc-text { font-family: var(--font-hebrew); font-size: 22px; font-weight: 700; fill: #111; letter-spacing: 1.5px; text-shadow: 0px 0px 8px white; }
+        .hebrew-text-simple { font-family: var(--font-hebrew); font-size: 1.4rem; color: #111; font-weight: 700; margin-top: -5px; }
         
         .bsd { position: absolute; top: 20px; right: 20px; font-family: var(--font-hebrew); font-size: 0.9rem; color: #444; z-index: 5; text-shadow: 0 0 5px white; }
         
@@ -170,7 +169,19 @@
         .btn-rsvp { background: transparent; color: #1a1a1a; border: 1px solid #1a1a1a; }
         .btn-rsvp:hover { background: #1a1a1a; color: #fff; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .btn-icon { width: 20px; height: 20px; fill: currentColor; }
-        .footer-note { font-size: 0.95rem; font-family: var(--font-body); font-style: italic; color: #555; margin-top: 25px; border-top: 1px solid rgba(0,0,0,0.15); padding-top: 10px; width: 80%; font-weight: 600; }
+        
+        .footer-note { 
+            font-size: 0.95rem; 
+            font-family: var(--font-body); 
+            font-style: italic; 
+            color: #555; 
+            margin-top: 25px; 
+            border-top: 1px solid rgba(0,0,0,0.15); 
+            padding-top: 10px; 
+            width: 90%; 
+            font-weight: 600; 
+            line-height: 1.5;
+        }
 
         /* BOUTON MUSIQUE FLOTTANT */
         #music-control { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; background: #5faeb6; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; z-index: 9999; border: 2px solid white; opacity: 0.9; }
@@ -228,7 +239,9 @@
                 <svg class="jewelry-rings" viewBox="0 0 100 60" fill="none"><circle cx="35" cy="30" r="22" stroke="#222" stroke-width="3"/><g><circle cx="65" cy="30" r="22" stroke="#222" stroke-width="2"/><path d="M65 8 L58 16 L65 24 L72 16 Z" fill="white" stroke="#222" stroke-width="1"/><path d="M58 16 L72 16" stroke="#222" stroke-width="0.5"/></g></svg>
                 <h2 class="ceremony-title">Cérémonie Civile</h2>
                 <div class="names-large">Alan & Annael</div>
-                <p class="intro-text">se diront "Oui"</p>
+                
+                <p class="intro-text" style="font-size: 1.8rem; font-weight: 600; margin-top: 5px;">se diront "Oui"</p>
+                
                 <div class="date-box"><div class="date-main">Mercredi 6 mai 2026</div></div>
                 <div class="location-box"><div class="location-text">Mairie de Pantin</div><div class="address-text">45 avenue du Général Leclerc</div></div>
                 <div class="btn-group">
@@ -240,7 +253,7 @@
         </div>
 
         <div class="invitation-card" id="card-religieuse">
-            <div class="card-bg-decor" style="background-image: url('houppa.png'); opacity: 0.65;"></div>
+            <div class="card-bg-decor" style="background-image: url('houppa.png'); opacity: 0.25;"></div>
             <div class="bsd">בס"ד</div>
             <div class="card-content">
                 <svg class="hebrew-arc-container" viewBox="0 0 500 100">
@@ -284,6 +297,7 @@
                     Shirley Haouzi z"l<br>
                     David et Zahri Amsellem z"l
                 </div>
+            </div>
         </div>
     </div>
 
@@ -297,7 +311,7 @@
                         observer.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.1 }); // Seuil réduit pour mobile
+            }, { threshold: 0.1 });
             document.querySelectorAll('.invitation-card').forEach(card => observer.observe(card));
 
             // GESTION MUSIQUE
