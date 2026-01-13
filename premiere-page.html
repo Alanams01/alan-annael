@@ -128,22 +128,12 @@
 
         .intro-text { font-family: var(--font-body); font-style: italic; font-size: 1.3rem; color: var(--color-grey); margin: 0; font-weight: 500; }
         
-        .hebrew-arc-container { width: 100%; height: 80px; margin-bottom: -15px; margin-top: 5px; overflow: visible; }
+        /* GESTION HÉBREU DESKTOP vs MOBILE */
+        .hebrew-arc-container { width: 100%; height: 80px; margin-bottom: -15px; margin-top: 5px; overflow: visible; display: block; }
+        .hebrew-arc-text { font-family: var(--font-hebrew); font-size: 22px; font-weight: 700; fill: #111; letter-spacing: 1.5px; text-shadow: 0px 0px 8px white; }
         
-        /* CORRECTION HÉBREU TÉLÉPHONE */
-        /* On utilise un scaleX(-1) pour inverser le texte en miroir si le téléphone l'affiche à l'envers */
-        .hebrew-arc-text { 
-            font-family: var(--font-hebrew); 
-            font-size: 22px; 
-            font-weight: 700; 
-            fill: #111; 
-            letter-spacing: 1.5px; 
-            text-shadow: 0px 0px 8px white; 
-            transform-box: fill-box;
-            transform-origin: center;
-            transform: scaleX(-1); /* ASTUCE MIROIR */
-        }
-        
+        .hebrew-flat-text { display: none; /* Caché par défaut (sur PC) */ }
+
         .hebrew-text-simple { font-family: var(--font-hebrew); font-size: 1.4rem; color: #111; font-weight: 700; margin-top: -5px; }
         
         .bsd { position: absolute; top: 20px; right: 20px; font-family: var(--font-hebrew); font-size: 0.9rem; color: #444; z-index: 5; text-shadow: 0 0 5px white; }
@@ -171,7 +161,6 @@
         .location-text { font-family: var(--font-caps); font-weight: 700; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
         .address-text { font-family: var(--font-body); font-size: 1.2rem; font-style: italic; color: #222; }
 
-        /* GROUPE BOUTONS */
         .btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 200px; margin-top: 20px; }
         
         /* BOUTONS RÉDUITS */
@@ -219,6 +208,7 @@
         #music-control svg { width: 22px; height: 22px; fill: white; }
         #music-control.playing svg { animation: spinMusic 4s linear infinite; }
 
+        /* --- MOBILE : On cache la courbe et on montre le texte droit --- */
         @media (max-width: 600px) {
             .page-wrapper { padding: 15px 10px; gap: 30px; }
             .invitation-card { padding: 30px 10px; }
@@ -227,6 +217,18 @@
             .parents-block { flex-direction: column; gap: 15px; }
             .parents-column { text-align: center !important; border-right: none !important; padding: 0 !important; }
             .intro-text, .address-text { font-size: 1.1rem; }
+
+            /* SOLUTION ULTIME HÉBREU MOBILE */
+            .hebrew-arc-container { display: none; } /* Cache la courbe buggée */
+            .hebrew-flat-text { 
+                display: block; /* Montre le texte droit */
+                font-family: var(--font-hebrew);
+                font-size: 1.6rem;
+                font-weight: 700;
+                color: #111;
+                margin-top: 5px;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -266,6 +268,7 @@
             <div class="card-bg-decor" style="background-image: url('houppa.png'); opacity: 0.25;"></div>
             <div class="bsd">בס"ד</div>
             <div class="card-content">
+                
                 <svg class="hebrew-arc-container" viewBox="0 0 500 100">
                     <path id="curvePath" d="M 20, 90 Q 250, 0 480, 90" fill="transparent"/>
                     <text width="500">
@@ -274,6 +277,10 @@
                         </textPath>
                     </text>
                 </svg>
+
+                <div class="hebrew-flat-text">
+                    קול ששון וקול שמחה, קול חתן וקול כלה
+                </div>
                 
                 <svg class="ceremony-icon-static" viewBox="0 0 24 24" style="width:24px; fill:#111; margin-top:-10px;"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
                 <h2 class="ceremony-title">Cérémonie Religieuse</h2>
@@ -313,6 +320,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            // ANIMATION DES CARTES
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -323,6 +331,7 @@
             }, { threshold: 0.1 });
             document.querySelectorAll('.invitation-card').forEach(card => observer.observe(card));
 
+            // GESTION MUSIQUE
             var audio = document.getElementById("wedding-audio");
             var btn = document.getElementById("music-control");
 
@@ -330,6 +339,7 @@
                 audio.play().then(() => {
                     btn.classList.add("playing");
                 }).catch(e => {
+                    console.log("Autoplay bloqué");
                     document.body.addEventListener('click', () => { if(audio.paused) { audio.play(); btn.classList.add("playing"); } }, { once: true });
                 });
                 localStorage.removeItem("startMusic");
