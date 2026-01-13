@@ -133,8 +133,9 @@
         .intro-text { font-family: var(--font-body); font-style: italic; font-size: 1.3rem; color: var(--color-grey); margin: 0; font-weight: 500; }
         
         .hebrew-arc-container { width: 100%; height: 80px; margin-bottom: -15px; margin-top: 5px; overflow: visible; }
-        .hebrew-arc-text { font-family: var(--font-hebrew); font-size: 22px; font-weight: 700; fill: #111; letter-spacing: 1.5px; text-shadow: 0px 0px 8px white; }
-        .hebrew-text-simple { font-family: var(--font-hebrew); font-size: 1.4rem; color: #111; font-weight: 700; margin-top: -5px; }
+        /* CORRECTION HÉBREU : ajout de direction: rtl */
+        .hebrew-arc-text { font-family: var(--font-hebrew); font-size: 22px; font-weight: 700; fill: #111; letter-spacing: 1.5px; text-shadow: 0px 0px 8px white; direction: rtl; unicode-bidi: bidi-override; }
+        .hebrew-text-simple { font-family: var(--font-hebrew); font-size: 1.4rem; color: #111; font-weight: 700; margin-top: -5px; direction: rtl; }
         
         .bsd { position: absolute; top: 20px; right: 20px; font-family: var(--font-hebrew); font-size: 0.9rem; color: #444; z-index: 5; text-shadow: 0 0 5px white; }
         
@@ -220,7 +221,7 @@
 
     <div class="page-wrapper">
         <div class="invitation-card" id="card-civile">
-            <div class="card-bg-decor" style="background-image: url('Mairie.png'); opacity: 0.85;"></div>
+            <div class="card-bg-decor" style="background-image: url('Mairie.png'); opacity: 0.9;"></div>
             <div class="bsd">בס"ד</div>
             <div class="card-content">
                 <img src="logo.png" alt="Logo AA" class="mini-logo">
@@ -239,14 +240,14 @@
         </div>
 
         <div class="invitation-card" id="card-religieuse">
-            <div class="card-bg-decor" style="background-image: url('houppa.png'); opacity: 0.85;"></div>
+            <div class="card-bg-decor" style="background-image: url('houppa.png'); opacity: 0.65;"></div>
             <div class="bsd">בס"ד</div>
             <div class="card-content">
                 <svg class="hebrew-arc-container" viewBox="0 0 500 100">
                     <path id="curvePath" d="M 20, 90 Q 250, 0 480, 90" fill="transparent"/>
                     <text width="500">
                         <textPath xlink:href="#curvePath" startOffset="50%" text-anchor="middle" class="hebrew-arc-text">
-                            הלכ לוקו ןתח לוק ,החמש לוקו ןושש לוק
+                            קול ששון וקול שמחה, קול חתן וקול כלה
                         </textPath>
                     </text>
                 </svg>
@@ -276,8 +277,13 @@
                     </a>
                     <a href="deuxieme-page.html" class="btn-luxe btn-rsvp">Répondre</a>
                 </div>
-                <div class="footer-note">Une pensée pour nos chers grands parents disparus qui nous manquent</div>
-            </div>
+                <div class="footer-note">
+                    Une pensée pour nos grands parents<br>
+                    Ange et Lydia Cohen-Jonathan z"l<br>
+                    Roger Castro z"l<br>
+                    Shirley Haouzi z"l<br>
+                    David et Zahri Amsellem z"l
+                </div>
         </div>
     </div>
 
