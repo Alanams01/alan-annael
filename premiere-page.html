@@ -129,7 +129,21 @@
         .intro-text { font-family: var(--font-body); font-style: italic; font-size: 1.3rem; color: var(--color-grey); margin: 0; font-weight: 500; }
         
         .hebrew-arc-container { width: 100%; height: 80px; margin-bottom: -15px; margin-top: 5px; overflow: visible; }
-        .hebrew-arc-text { font-family: var(--font-hebrew); font-size: 22px; font-weight: 700; fill: #111; letter-spacing: 1.5px; text-shadow: 0px 0px 8px white; }
+        
+        /* CORRECTION HÉBREU TÉLÉPHONE */
+        /* On utilise un scaleX(-1) pour inverser le texte en miroir si le téléphone l'affiche à l'envers */
+        .hebrew-arc-text { 
+            font-family: var(--font-hebrew); 
+            font-size: 22px; 
+            font-weight: 700; 
+            fill: #111; 
+            letter-spacing: 1.5px; 
+            text-shadow: 0px 0px 8px white; 
+            transform-box: fill-box;
+            transform-origin: center;
+            transform: scaleX(-1); /* ASTUCE MIROIR */
+        }
+        
         .hebrew-text-simple { font-family: var(--font-hebrew); font-size: 1.4rem; color: #111; font-weight: 700; margin-top: -5px; }
         
         .bsd { position: absolute; top: 20px; right: 20px; font-family: var(--font-hebrew); font-size: 0.9rem; color: #444; z-index: 5; text-shadow: 0 0 5px white; }
@@ -157,22 +171,20 @@
         .location-text { font-family: var(--font-caps); font-weight: 700; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
         .address-text { font-family: var(--font-body); font-size: 1.2rem; font-style: italic; color: #222; }
 
-        /* MODIFICATION BOUTONS : Largeur max du groupe réduite */
+        /* GROUPE BOUTONS */
         .btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 200px; margin-top: 20px; }
         
-        /* BOUTONS PLUS PETITS */
+        /* BOUTONS RÉDUITS */
         .btn-luxe { 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             gap: 8px; 
-            /* Padding fortement réduit */
-            padding: 8px 15px; 
+            padding: 8px 15px; /* Petit padding */
             border-radius: 50px; 
             text-decoration: none; 
             font-family: var(--font-caps); 
-            /* Police réduite */
-            font-size: 0.8rem; 
+            font-size: 0.8rem; /* Petit texte */
             letter-spacing: 1px; 
             text-transform: uppercase; 
             font-weight: 700; 
@@ -188,8 +200,6 @@
         .btn-waze:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(95, 174, 182, 0.5); } .btn-waze:hover::after { left: 150%; }
         .btn-rsvp { background: transparent; color: #1a1a1a; border: 1px solid #1a1a1a; }
         .btn-rsvp:hover { background: #1a1a1a; color: #fff; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        
-        /* ICONE PLUS PETITE */
         .btn-icon { width: 16px; height: 16px; fill: currentColor; }
         
         .footer-note { 
@@ -239,7 +249,9 @@
                 <svg class="jewelry-rings" viewBox="0 0 100 60" fill="none"><circle cx="35" cy="30" r="22" stroke="#222" stroke-width="3"/><g><circle cx="65" cy="30" r="22" stroke="#222" stroke-width="2"/><path d="M65 8 L58 16 L65 24 L72 16 Z" fill="white" stroke="#222" stroke-width="1"/><path d="M58 16 L72 16" stroke="#222" stroke-width="0.5"/></g></svg>
                 <h2 class="ceremony-title">Cérémonie Civile</h2>
                 <div class="names-large">Alan & Annael</div>
+                
                 <p class="intro-text" style="font-size: 1.8rem; font-weight: 600; margin-top: 5px;">se diront "Oui"</p>
+                
                 <div class="date-box"><div class="date-main">Mercredi 6 mai 2026</div></div>
                 <div class="location-box"><div class="location-text">Mairie de Pantin</div><div class="address-text">45 avenue du Général Leclerc</div></div>
                 <div class="btn-group">
@@ -254,7 +266,7 @@
             <div class="card-bg-decor" style="background-image: url('houppa.png'); opacity: 0.25;"></div>
             <div class="bsd">בס"ד</div>
             <div class="card-content">
-                <svg class="hebrew-arc-container" viewBox="0 0 500 100" style="direction: ltr;">
+                <svg class="hebrew-arc-container" viewBox="0 0 500 100">
                     <path id="curvePath" d="M 20, 90 Q 250, 0 480, 90" fill="transparent"/>
                     <text width="500">
                         <textPath xlink:href="#curvePath" startOffset="50%" text-anchor="middle" class="hebrew-arc-text">
@@ -318,7 +330,6 @@
                 audio.play().then(() => {
                     btn.classList.add("playing");
                 }).catch(e => {
-                    console.log("Autoplay bloqué");
                     document.body.addEventListener('click', () => { if(audio.paused) { audio.play(); btn.classList.add("playing"); } }, { once: true });
                 });
                 localStorage.removeItem("startMusic");
