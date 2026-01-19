@@ -20,6 +20,9 @@
 
         .input-text { width: 100%; padding: 12px 15px; font-family: var(--font-body); font-size: 1.1rem; border: 1px solid #ccc; border-radius: 4px; background-color: #fafafa; box-sizing: border-box; margin-bottom: 25px; }
         .input-text:focus { outline: none; border-color: var(--color-teal); background-color: #fff; }
+        
+        /* AJOUT POUR LE MESSAGE : Permet de ne pas casser le design si on agrandit la zone */
+        textarea.input-text { resize: vertical; min-height: 100px; }
 
         .radio-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px; }
         .radio-group input[type="radio"] { display: none; }
@@ -99,6 +102,9 @@
                     </div>
                 </div>
 
+                <label class="field-label" for="message">Un message pour les mariés ? (Facultatif)</label>
+                <textarea id="message" name="message" class="input-text" rows="3" placeholder="Vœux, allergies alimentaires, chanson préférée..."></textarea>
+
                 <input type="text" name="bpot" style="display:none !important;" tabindex="-1" autocomplete="off">
 
                 <button type="submit" class="btn-submit">Envoyer votre réponse</button>
@@ -123,15 +129,12 @@
 
             var data = new FormData(form);
 
-            // LA CORRECTION EST ICI : mode: 'no-cors'
             fetch(SCRIPT_URL, { 
                 method: 'POST', 
-                mode: 'no-cors', // <--- C'est ça qui force l'envoi sans erreur de sécurité
+                mode: 'no-cors',
                 body: data 
             })
             .then(response => {
-                // Avec no-cors, on ne peut pas savoir si ça a échoué côté serveur,
-                // mais si on arrive ici, c'est que la connexion s'est faite.
                 alert("Mazal Tov ! Votre réponse a bien été enregistrée.");
                 form.reset();
                 btn.innerText = "Réponse envoyée !";
@@ -151,7 +154,6 @@
             });
         }
 
-        // Gestion affichage Oui/Non (Reste identique)
         function toggleCount(divId, show) {
             var div = document.getElementById(divId);
             div.style.display = show ? "block" : "none";
@@ -160,22 +162,6 @@
                 inputs.forEach(input => input.checked = false);
             }
         }
-
-        // Gestion Musique (Reste identique)
-        document.addEventListener("DOMContentLoaded", function() {
-            var audio = document.getElementById("wedding-audio");
-            var btn = document.getElementById("music-control");
-            if (localStorage.getItem("startMusic") === "true" || localStorage.getItem("musicPlaying") === "true") {
-                audio.play().then(() => btn.classList.add("playing")).catch(e => console.log("Autoplay bloqué"));
-            }
-        });
-        function toggleMusic() {
-            var audio = document.getElementById("wedding-audio");
-            var btn = document.getElementById("music-control");
-            if(audio.paused) { audio.play(); btn.classList.add("playing"); localStorage.setItem("musicPlaying", "true"); }
-            else { audio.pause(); btn.classList.remove("playing"); localStorage.setItem("musicPlaying", "false"); }
-        }
     </script>
 </body>
-
 </html>
