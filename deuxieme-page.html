@@ -115,9 +115,9 @@
         </div>
     </div>
 
-    <script>
-        // TON URL GOOGLE SCRIPT :
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHnG5dSfSHpwFG2Gk0Jma4ktP7q-fDbmIgSJLE81_TjUhcgQI7O9vs5R3AWnNvvAOBOQ/exec"; 
+    <script>   
+        const ENCODED_URL = "aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6SG5HNWRTZlNocHdGRzJHazBKbWE0a3RQN3EtZkRibUlnU0pMRTgxX1RqVWhjZ1FJN085dnZSM0FXbk52dkFPQk9RL2V4ZWM=";
+        const SCRIPT_URL = atob(ENCODED_URL);
 
         function envoyerReponse(e) {
             e.preventDefault();
@@ -166,4 +166,5 @@
     </script>
 </body>
 </html>
+
 
