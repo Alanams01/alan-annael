@@ -30,28 +30,6 @@
             overflow-x: hidden; 
         }
 
-        /* --- ANIMATION PÉTALES BLEUS --- */
-        #petals-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 9998;
-        }
-        .petal {
-            position: absolute;
-            background-color: #add8e6; /* Bleu ciel */
-            border-radius: 150% 0 150% 0;
-            opacity: 0.6;
-            animation: fall linear infinite;
-            box-shadow: inset -2px -2px 5px rgba(255,255,255,0.4);
-        }
-        @keyframes fall {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-        }
-
         /* --- FLASH INTRODUCTION --- */
         #intro-flash {
             position: fixed;
@@ -166,7 +144,6 @@
         #music-control { position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; background: #5faeb6; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; z-index: 9999; border: 2px solid white; opacity: 0.9; }
         #music-control.playing svg { animation: spinMusic 4s linear infinite; }
 
-        /* TAILLE HEBREU CORRIGÉE */
         .hebrew-text-simple { font-family: var(--font-hebrew); font-size: 2.2rem; color: #111; font-weight: 700; margin-top: 5px; }
 
         @media (max-width: 600px) {
@@ -180,7 +157,6 @@
 <body>
 
     <div id="intro-flash"></div>
-    <div id="petals-container"></div>
 
     <audio id="wedding-audio" loop>
         <source src="musique.mp3" type="audio/mpeg">
@@ -200,12 +176,9 @@
                 <h2 class="ceremony-title" style="--item-index: 3">Cérémonie Civile</h2>
                 <div class="names-large" style="--item-index: 4">Alan & Annael</div>
                 <p class="intro-text" style="--item-index: 5; font-size: 1.8rem; font-weight: 600; margin-top: 5px;">se diront "Oui"</p>
-                <div class="date-box" style="--item-index: 6"><div class="date-main">Mercredi 6 mai 2026 à 13h précise</div></div>
+                <div class="date-box" style="--item-index: 6"><div class="date-main">Mercredi 6 mai 2026 à 13h </div></div>
                 <div class="location-box" style="--item-index: 7"><div class="location-text">Mairie de Pantin</div><div class="address-text">45 avenue du Général Leclerc</div></div>
                 
-                <p class="intro-text" style="--item-index: 8; margin-top: 15px; font-weight: 600;">La cérémonie sera suivie d'un vin d'honneur à la salle Baccara </p>
-                <p class="address-text" style="--item-index: 9;">61 Rue Saint-André, 93000 Bobigny</p>
-
                 <div class="btn-group" style="--item-index: 10;">
                     <a href="https://ul.waze.com/ul?venue_id=1573353.15733530.8302235" target="_blank" class="btn-luxe btn-waze">Waze</a>
                 </div>
@@ -262,23 +235,7 @@
     </div>
 
     <script>
-        // --- PETALES BLEUS ---
-        function createPetals() {
-            const container = document.getElementById('petals-container');
-            for (let i = 0; i < 30; i++) {
-                const petal = document.createElement('div');
-                petal.className = 'petal';
-                const size = Math.random() * 15 + 10 + 'px';
-                petal.style.width = size; petal.style.height = size;
-                petal.style.left = Math.random() * 100 + 'vw';
-                petal.style.animationDuration = Math.random() * 5 + 5 + 's';
-                petal.style.animationDelay = Math.random() * 5 + 's';
-                container.appendChild(petal);
-            }
-        }
-        createPetals();
-
-        // --- MUSIQUE AU SCROLL (OPTIMISÉ) ---
+        // --- MUSIQUE AU SCROLL ---
         let audioStarted = false;
         const audio = document.getElementById("wedding-audio");
         const btn = document.getElementById("music-control");
@@ -288,12 +245,9 @@
                 audio.play().then(() => {
                     audioStarted = true;
                     btn.classList.add("playing");
-                    // On retire les écouteurs une fois lancé
                     window.removeEventListener('scroll', startAudio);
                     window.removeEventListener('touchstart', startAudio);
-                }).catch(() => {
-                    // En cas de blocage navigateur
-                });
+                }).catch(() => {});
             }
         };
 
